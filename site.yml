@@ -1,0 +1,8 @@
+---
+- name: Apply baseline role
+  hosts: all
+  become: true
+
+  roles:
+    - role: baseline
+      tags: baseline

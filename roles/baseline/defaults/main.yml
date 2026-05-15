@@ -1,0 +1,7 @@
+---
+baseline_packages:
+  - vim
+  - curl
+  - git
+
+baseline_motd_text: "Managed by Ansible Role: baseline"

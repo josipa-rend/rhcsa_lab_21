@@ -1,0 +1,33 @@
+---
+- name: Ensure baseline packages are installed
+  ansible.builtin.package:
+    name: "{{ baseline_packages }}"
+    state: present
+
+- name: Ensure chronyd is enabled and running
+  ansible.builtin.service:
+    name: chronyd
+    state: started
+    enabled: true
+  when: ansible_os_family == "RedHat"
+
+- name: Configure MOTD
+  ansible.builtin.copy:
+    dest: /etc/motd
+    content: "{{ baseline_motd_text }}\n"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Configure ipv4 forward
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: "0"
+    state: present
+    reload: true
+
+- name: Not baseline task
+  ansible.builtin.debug:
+    msg: "This is not baseline role task!"
+  tags:
+    - debug
